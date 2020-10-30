@@ -37,7 +37,7 @@ torch.cuda.manual_seed(args.seed)
 # Load data
 adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.data)
 cudaid = "cuda:"+str(args.dev)
-device = torch.device(cudaid)
+device = torch.device(cudaid) if torch.cuda.is_available() else "cpu"
 features = features.to(device)
 adj = adj.to(device)
 checkpt_file = 'pretrained/'+uuid.uuid4().hex+'.pt'

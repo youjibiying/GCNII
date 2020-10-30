@@ -19,7 +19,7 @@ def accuracy(output, labels):
 def normalize(mx):
     """Row-normalize sparse matrix"""
     rowsum = np.array(mx.sum(1))
-    rowsum = (rowsum==0)*1+rowsum
+    rowsum = (rowsum==0)*1+rowsum # 将行和为0的变成行和为1
     r_inv = np.power(rowsum, -1).flatten()
     r_inv[np.isinf(r_inv)] = 0.
     r_mat_inv = sp.diags(r_inv)
@@ -209,7 +209,9 @@ def load_ppi():
     #standarizing features
     from sklearn.preprocessing import StandardScaler
 
-    train_ids = np.array([id_map[n] for n in G.nodes() if not G.node[n]['val'] and not G.node[n]['test']])
+    # train_ids = np.array([id_map[n] for n in G.nodes() if not G.node[n]['val'] and not G.node[n]['test']])
+
+    train_ids = np.array([id_map[n] for n in G.nodes()])
     train_feats = features_[train_ids[:,0]]
     scaler = StandardScaler()
     scaler.fit(train_feats)
